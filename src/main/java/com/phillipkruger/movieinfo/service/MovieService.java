@@ -6,38 +6,34 @@ import com.phillipkruger.movieinfo.model.Movie;
 import com.phillipkruger.movieinfo.model.Person;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class MovieService {
 
     public List<Movie> searchTitle(String term){
+        //System.out.println(">>>>>>>>> search [" + term + "]");
+        computeSomeStuff();
         List<Movie> moviesBySearchTerm = new ArrayList<>();
         for(Movie m:MOVIES){
             if(m.getTitle().toLowerCase().contains(term.toLowerCase())){
                moviesBySearchTerm.add(m);
             }
         }
+        //System.out.println(">>>>>>>>> found  [" + term + "]");
         return moviesBySearchTerm;
     }
     
     public List<Movie> getAllMovies(){
+        computeSomeStuff();
         return MOVIES;
     }
-    
-    public List<Movie> getMovies(Genre... genres){
-        List<Movie> moviesByGenre = new ArrayList<>();
-        for(Movie movie:MOVIES){
-            for(Genre genre:genres){
-                if(movie.getGenres().contains(genre) && !moviesByGenre.contains(movie)){
-                    moviesByGenre.add(movie);
-                }
-            }
-        }
-        return moviesByGenre;
-    }
-    
+        
     public List<Movie> getMovies(Person actor){
+        //System.out.println(">>>>>>>>> get movies for [" + actor.getFullName() + "]");
+        computeSomeStuff();
         List<Movie> moviesByActor = new ArrayList<>();
         for(Movie movie:MOVIES){
             List<CastMember> cast = movie.getCast();
@@ -47,7 +43,16 @@ public class MovieService {
                 }
             }
         }
+        //System.out.println(">>>>>>>>> got movies for  [" + actor.getFullName() + "]");
         return moviesByActor;
+    }
+    
+    private void computeSomeStuff(){
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MovieService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private static final List<Movie> MOVIES = new ArrayList<>();

@@ -30,6 +30,14 @@ public class Person {
     public void setSurname(String surname) {
         this.surname = surname;
     }
+    
+    public String getFullName() {
+        return Arrays.toString(this.names)
+                .replace("[", "")
+                .replace("]", "")
+                .replace(",", "")
+                + " " + this.surname;
+    }
 
     @Override
     public int hashCode() {
@@ -56,5 +64,4 @@ public class Person {
         }
         return Arrays.deepEquals(this.names, other.names);
     }
-    
 }

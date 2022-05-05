@@ -1,11 +1,10 @@
 package com.phillipkruger.movieinfo;
 
-import com.phillipkruger.movieinfo.model.Genre;
 import com.phillipkruger.movieinfo.model.Movie;
 import com.phillipkruger.movieinfo.service.MovieService;
-import io.smallrye.common.annotation.Blocking;
 import io.smallrye.mutiny.Uni;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.eclipse.microprofile.graphql.GraphQLApi;
@@ -24,17 +23,15 @@ public class MovieInfoEndpoint {
     }
     
     @Query
-    public Uni<List<Movie>> searchByTitle(String term) throws InterruptedException{
-        return Uni.createFrom().item(() -> addThreadName(movieService.searchTitle(term)));
+    public List<Movie> searchByTitle(String term) {
+        return addThreadName(movieService.searchTitle(term));
     }
     
-    @Blocking
     public List<Movie> otherMoviesByActor(@Source Movie movie) throws InterruptedException{
         List<Movie> otherMoviesByActor = movieService.getMovies(movie.getCast().get(0).getActor());
+        otherMoviesByActor.remove(movie);
         return addThreadName(otherMoviesByActor);
     }
-    
-    
     
     private List<Movie> addThreadName(List<Movie> movies){
         return movies.stream()
