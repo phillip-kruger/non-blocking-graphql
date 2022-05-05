@@ -1,5 +1,8 @@
 package com.phillipkruger.movieinfo.model;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Person {
     private String[] names;
     private String surname;
@@ -27,4 +30,31 @@ public class Person {
     public void setSurname(String surname) {
         this.surname = surname;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Arrays.deepHashCode(this.names);
+        hash = 97 * hash + Objects.hashCode(this.surname);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Person other = (Person) obj;
+        if (!Objects.equals(this.surname, other.surname)) {
+            return false;
+        }
+        return Arrays.deepEquals(this.names, other.names);
+    }
+    
 }

@@ -37,6 +37,19 @@ public class MovieService {
         return moviesByGenre;
     }
     
+    public List<Movie> getMovies(Person actor){
+        List<Movie> moviesByActor = new ArrayList<>();
+        for(Movie movie:MOVIES){
+            List<CastMember> cast = movie.getCast();
+            for(CastMember castMember:cast){
+                if(castMember.getActor().equals(actor)){
+                    moviesByActor.add(movie);
+                }
+            }
+        }
+        return moviesByActor;
+    }
+    
     private static final List<Movie> MOVIES = new ArrayList<>();
     
     private static final Person FRANK_DARABONT = new Person("Darabont", "Frank");
@@ -66,7 +79,26 @@ public class MovieService {
     private static final Person BRUCE_WAYNE = new Person("Wayne", "Bruce");
     private static final Person JOKER = new Person("","Joker");
     private static final Person HARVEY_DENT = new Person("Dent","Harvey");
-
+    private static final Person MARY_HARRON = new Person("Harron", "Mary");
+    private static final Person BRET_EASTON_ELLIS = new Person("Ellis", "Bret", "Easton");
+    private static final Person GUINEVERE_TURNER = new Person("Turner", "Guinevere");
+    private static final Person PATRICK_BATEMAN = new Person("Bateman", "Patrick");
+    private static final Person JUSTIN_THEROUX = new Person("Theroux", "Justin");
+    private static final Person TIMOTHY_BRYCE = new Person("Bryce", "Timothy");
+    private static final Person BOB_KANE = new Person("Kane", "Bob");
+    private static final Person LIAM_NEESON = new Person("Neeson", "Liam");
+    private static final Person MICHAEL_CANE = new Person("Cane", "Michael");
+    private static final Person ALFRED = new Person("", "Alfred");
+    private static final Person DUCARD = new Person("", "Ducard");
+    private static final Person PIERRE_MOREL = new Person("Morel", "Pierre");
+    private static final Person LUC_BESSON = new Person("Besson", "Luc");
+    private static final Person ROBERT_MARK_KAMEN = new Person("Kamen", "Robert", "Mark");
+    private static final Person BRYAN_MILLS = new Person("Mills", "Bryan");
+    private static final Person MAGGIE_GRACE = new Person("Grace", "Maggie");
+    private static final Person KIM = new Person("", "Kim");
+    private static final Person FAMKE_JANSSEN = new Person("Janssen", "Famke");
+    private static final Person LENORE = new Person("", "Lenore");
+            
     private static final Movie SHAWSHANK_REDEMPTION = new Movie("The Shawshank Redemption", 
                         1994, 
                         List.of(Genre.Drama), 
@@ -103,12 +135,46 @@ public class MovieService {
                                 new CastMember(HEATH_LEDGER,JOKER),
                                 new CastMember(AARON_ECKHART,HARVEY_DENT)));
     
+    private static final Movie AMERICAN_PSYCHO = new Movie("American Psycho", 
+                        2000, 
+                        List.of(Genre.Crime,Genre.Drama, Genre.Horror), 
+                        7.6, 
+                        "A wealthy New York City investment banking executive, Patrick Bateman, hides his alternate psychopathic ego from his co-workers and friends as he delves deeper into his violent, hedonistic fantasies.", 
+                        List.of(MARY_HARRON), 
+                        List.of(BRET_EASTON_ELLIS, MARY_HARRON, GUINEVERE_TURNER), 
+                        List.of(new CastMember(CHRISTIAN_BALE,PATRICK_BATEMAN), 
+                                new CastMember(HEATH_LEDGER,JOKER),
+                                new CastMember(JUSTIN_THEROUX,TIMOTHY_BRYCE)));
     
+    private static final Movie BATMAN_BEGINS = new Movie("Batman Begins", 
+                        2005, 
+                        List.of(Genre.Crime,Genre.Drama, Genre.Action),
+                        8.2, 
+                        "After training with his mentor, Batman begins his fight to free crime-ridden Gotham City from corruption.", 
+                        List.of(CHRISTOPHER_NOLAN), 
+                        List.of(CHRISTOPHER_NOLAN, DAVID_S_GOYER, BOB_KANE), 
+                        List.of(new CastMember(CHRISTIAN_BALE,BRUCE_WAYNE), 
+                                new CastMember(MICHAEL_CANE,ALFRED),
+                                new CastMember(LIAM_NEESON,DUCARD)));
+    
+    private static final Movie TAKEN = new Movie("Taken", 
+                        2008, 
+                        List.of(Genre.Thriller,Genre.Drama, Genre.Action),
+                        7.8, 
+                        "A retired CIA agent travels across Europe and relies on his old skills to save his estranged daughter, who has been kidnapped while on a trip to Paris.",
+                        List.of(PIERRE_MOREL), 
+                        List.of(LUC_BESSON, ROBERT_MARK_KAMEN), 
+                        List.of(new CastMember(LIAM_NEESON,BRYAN_MILLS), 
+                                new CastMember(MAGGIE_GRACE,KIM),
+                                new CastMember(FAMKE_JANSSEN,LENORE)));
     
     static {
         MOVIES.add(SHAWSHANK_REDEMPTION);
         MOVIES.add(GODFATHER);
         MOVIES.add(DARK_KNIGHT);
+        MOVIES.add(AMERICAN_PSYCHO);
+        MOVIES.add(BATMAN_BEGINS);
+        MOVIES.add(TAKEN);
     }
     
 }
