@@ -18,13 +18,13 @@ public class MovieInfoEndpoint {
     MovieService movieService;
     
     @Query
-    public Uni<List<Movie>> getAllMovies(){
-        return Uni.createFrom().item(() -> addThreadName(movieService.getAllMovies()));
+    public List<Movie> getAllMovies(){
+        return addThreadName(movieService.getAllMovies());
     }
     
     @Query
-    public List<Movie> searchByTitle(String term) {
-        return addThreadName(movieService.searchTitle(term));
+    public Uni<List<Movie>> searchByTitle(String term) {
+        return Uni.createFrom().item(() -> addThreadName(movieService.searchTitle(term)));
     }
     
     public List<Movie> otherMoviesByActor(@Source Movie movie) throws InterruptedException{

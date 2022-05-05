@@ -95,6 +95,10 @@ public class Movie {
         this.cast = cast;
     }
 
+    public Person getMainActor(){
+        return this.cast.get(0).getActor();
+    }
+    
     public String getThreadName(){
         return threadName;
     }
