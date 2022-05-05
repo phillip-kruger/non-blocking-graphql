@@ -2,6 +2,8 @@ package com.phillipkruger.movieinfo;
 
 import com.phillipkruger.movieinfo.model.Movie;
 import com.phillipkruger.movieinfo.service.MovieService;
+import io.smallrye.common.annotation.Blocking;
+import io.smallrye.common.annotation.NonBlocking;
 import io.smallrye.mutiny.Uni;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -17,6 +19,9 @@ public class MovieInfoEndpoint {
     @Inject
     MovieService movieService;
     
+    @Inject
+    RequestInfo requestInfo;
+    
     @Query
     public List<Movie> getAllMovies(){
         return addThreadName(movieService.getAllMovies());
@@ -24,10 +29,12 @@ public class MovieInfoEndpoint {
     
     @Query
     public Uni<List<Movie>> searchByTitle(String term) {
+        requestInfo.init();
         return Uni.createFrom().item(() -> addThreadName(movieService.searchTitle(term)));
     }
     
     public List<Movie> otherMoviesByActor(@Source Movie movie) throws InterruptedException{
+        requestInfo.current();
         List<Movie> otherMoviesByActor = movieService.getMovies(movie.getCast().get(0).getActor());
         otherMoviesByActor.remove(movie);
         return addThreadName(otherMoviesByActor);
